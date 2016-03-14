@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://tizen.org/ns/packages" package="org.tizen.elm-demo-tizen-wearable" api-version="3.0" version="0.1" install-location="internal-only">
+    <label>wearable-demo</label>
+    <description>Tizen Mobile Theme Demo Code</description>
+    <ui-application appid="org.tizen.elm-demo-tizen-wearable" exec="/usr/apps/org.tizen.elm-demo-tizen-wearable/bin/elm-demo-tizen-wearable" nodisplay="false" multiple="false" type="capp" taskmanage="true">
+        <label>wearable-demo</label>
+        <label xml:lang="en-us">wearable-demo</label>
+    </ui-application>
+</manifest>

@@ -1,0 +1,86 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+PROJECT(elm-demo-tizen-wearable C)
+SET(PACKAGE org.tizen.elm-demo-tizen-wearable)
+
+SET(SRCS
+        src/bg.c
+        src/check.c
+        src/eext_genlist.c
+        src/eext_progressbar.c
+        src/eext_scroller.c
+        src/eext_spinner.c
+        src/genlist.c
+        src/index.c
+        src/main.c
+        src/popup.c
+        src/radio.c
+        src/button.c
+        src/eext_datetime.c
+        src/eext_more_option.c
+        src/eext_rotary_selector.c
+        src/eext_slider.c
+        src/entry.c
+        src/image.c
+        src/layout.c
+        src/map.c
+        src/progressbar.c
+        src/scroller.c
+	)
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/inc)
+
+FIND_LIBRARY(LIB_M m)
+#FIXME: pthread is added for preventing build error
+SET(PKG_LDFLAGS "-pthread ${LIB_M} -pie")
+SET(PKG_CFLAGS "-g -Wall -fPIE")
+
+INCLUDE(FindPkgConfig)
+pkg_check_modules(BASE_PKG REQUIRED elementary efl-extension)
+FOREACH(flag ${BASE_PKG_CFLAGS})
+	SET(PKG_CFLAGS "${PKG_CFLAGS} ${flag}")
+ENDFOREACH(flag)
+FOREACH(flag ${BASE_PKG_LDFLAGS})
+	SET(PKG_LDFLAGS "${PKG_LDFLAGS} ${flag}")
+ENDFOREACH(flag)
+
+pkg_check_modules(TIZEN_PKG REQUIRED capi-appfw-application capi-system-system-settings appcore-efl capi-appfw-app-manager)
+FOREACH(flag ${TIZEN_PKG_CFLAGS})
+	SET(PKG_CFLAGS "${PKG_CFLAGS} ${flag}")
+ENDFOREACH(flag)
+FOREACH(flag ${TIZEN_PKG_LDFLAGS})
+	SET(PKG_LDFLAGS "${PKG_LDFLAGS} ${flag}")
+ENDFOREACH(flag)
+
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${PKG_CFLAGS}")
+
+# install desktop file & icon
+SET(PREFIX ${CMAKE_INSTALL_PREFIX})
+SET(BINDIR "${PREFIX}/bin")
+SET(RESDIR "${PREFIX}/res")
+SET(LOCALEDIR "${RESDIR}/locale")
+SET(IMGDIR "${RESDIR}/images")
+
+ADD_DEFINITIONS("-DPACKAGE=\"${PACKAGE}\"")
+ADD_DEFINITIONS("-DPREFIX=\"${CMAKE_INSTALL_PREFIX}\"")
+ADD_DEFINITIONS("-DRESDIR=\"${RESDIR}\"")
+ADD_DEFINITIONS("-DLOCALE_DIR=\"${LOCALEDIR}\"")
+ADD_DEFINITIONS("-DICON_DIR=\"${IMGDIR}\"")
+ADD_DEFINITIONS("-DELM_DEMO_EDJ=\"${RESDIR}/${PROJECT_NAME}.edj\"")
+
+ADD_EXECUTABLE(${PROJECT_NAME} ${SRCS})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${PKG_LDFLAGS})
+
+ADD_CUSTOM_TARGET(${PROJECT_NAME}.edj
+	COMMAND edje_cc -no-save -id ${CMAKE_CURRENT_SOURCE_DIR}/edje/images
+	${CMAKE_SOURCE_DIR}/res/${PROJECT_NAME}.edc ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.edj
+	DEPENDS ${CMAKE_SOURCE_DIR}/res/${PROJECT_NAME}.edc
+	)
+ADD_DEPENDENCIES(${PROJECT_NAME} ${PROJECT_NAME}.edj)
+
+INSTALL(TARGETS ${PROJECT_NAME} DESTINATION ${BINDIR})
+# for workaround taskmanager behaviour
+INSTALL(FILES ${CMAKE_SOURCE_DIR}/${PACKAGE}.png DESTINATION /usr/share/icons/default/small/)
+INSTALL(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.edj DESTINATION ${RESDIR})
+INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res/images/ DESTINATION ${IMGDIR} FILES_MATCHING PATTERN "*.png")
+INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res/images/ DESTINATION ${IMGDIR} FILES_MATCHING PATTERN "*.jpg")
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${PACKAGE}.xml DESTINATION /usr/share/packages/)
