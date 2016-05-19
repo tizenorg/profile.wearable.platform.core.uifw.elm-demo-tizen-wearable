@@ -69,9 +69,8 @@ void progressbar_cb(void *data, Evas_Object *obj, void *event_info)
 	appdata_s *ad = (appdata_s *)data;
 	Evas_Object *scroller;
 	Evas_Object *nf = ad->nf;
-	Elm_Object_Item *nf_it;
 
 	scroller = _create_progressbar(ad);
 
-	nf_it = elm_naviframe_item_push(nf, "ProgressBar", NULL, NULL, scroller, "empty");
+	elm_naviframe_item_push(nf, "ProgressBar", NULL, NULL, scroller, "empty");
 }

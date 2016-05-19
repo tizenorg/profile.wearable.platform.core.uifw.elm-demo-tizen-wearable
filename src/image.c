@@ -48,7 +48,7 @@ _image2_clicked_cb(void *data , Evas_Object *obj EINA_UNUSED, void *event_info E
 	Eina_Bool smooth = EINA_FALSE;
 	static int scale_num = 0;
 	int w,h;
-	int prescale = 0;
+	//int prescale = 0;
 
 	smooth = !elm_image_smooth_get(image);
 
@@ -105,6 +105,7 @@ image_cb(void *data, Evas_Object *obj, void *event_info)
 	char image_file_buf[BUF_SIZE];
 	char buf[256];
 	FILE *fp;
+    size_t len;
 
 	scroller = elm_scroller_add(naviframe);
 	elm_scroller_bounce_set(scroller, EINA_FALSE, EINA_TRUE);
@@ -150,7 +151,12 @@ image_cb(void *data, Evas_Object *obj, void *event_info)
 	fseek(fp, 0, SEEK_END);
 	size = (int)ftell(fp);
 	fseek(fp, 0, SEEK_SET);
-	fread(image_file_buf, 1, size, fp);
+	len = fread(image_file_buf, 1, size, fp);
+    if (len != size)
+    {
+	    //dlog_print(DLOG_ERROR, LOG_TAG, "fail to read image. file = %s, size = %d, read = %d\n", buf, size, len);
+        return;
+    }
 
 	elm_image_memfile_set(image3, &image_file_buf, size, "png", NULL);
 	elm_object_part_content_set(layout, "image3", image3);

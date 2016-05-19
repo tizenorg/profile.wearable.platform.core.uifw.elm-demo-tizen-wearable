@@ -159,7 +159,6 @@ button_cb(void *data, Evas_Object *obj, void *event_info)
 	Evas_Object *genlist;
 	Evas_Object *circle_genlist;
 	Evas_Object *nf = ad->nf;
-	Elm_Object_Item *nf_it;
 	Elm_Genlist_Item_Class *itc = elm_genlist_item_class_new();
 	Elm_Genlist_Item_Class *ttc = elm_genlist_item_class_new();
 	Elm_Genlist_Item_Class *ptc = elm_genlist_item_class_new();
@@ -200,5 +199,5 @@ button_cb(void *data, Evas_Object *obj, void *event_info)
 	elm_genlist_item_class_free(itc);
 	elm_genlist_item_class_free(ptc);
 
-	nf_it = elm_naviframe_item_push(nf, "Button", NULL, NULL, genlist, "empty");
+	elm_naviframe_item_push(nf, "Button", NULL, NULL, genlist, "empty");
 }

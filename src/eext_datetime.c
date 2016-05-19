@@ -89,7 +89,6 @@ _datetime_date_cb(void *data, Evas_Object * obj, void *event_info)
 	appdata_s *ad = (appdata_s *)data;
 	Evas_Object *layout = NULL;
 	Evas_Object *datetime = NULL;
-	Evas_Object *circle_datetime = NULL;
 	Evas_Object *btn = NULL;
 	Elm_Object_Item *nf_it = NULL;
 
@@ -98,7 +97,7 @@ _datetime_date_cb(void *data, Evas_Object * obj, void *event_info)
 
 	datetime = elm_datetime_add(layout);
 
-	circle_datetime = eext_circle_object_datetime_add(datetime, ad->circle_surface);
+	eext_circle_object_datetime_add(datetime, ad->circle_surface);
 
 	eext_rotary_object_event_activated_set(datetime, EINA_TRUE);
 
@@ -125,7 +124,6 @@ _datetime_time_cb(void *data, Evas_Object * obj, void *event_info)
 	appdata_s *ad = (appdata_s *)data;
 	Evas_Object *layout = NULL;
 	Evas_Object *datetime = NULL;
-	Evas_Object *circle_datetime = NULL;
 	Evas_Object *btn = NULL;
 	Elm_Object_Item *nf_it = NULL;
 
@@ -143,7 +141,7 @@ _datetime_time_cb(void *data, Evas_Object * obj, void *event_info)
 
 	datetime = elm_datetime_add(layout);
 
-	circle_datetime = eext_circle_object_datetime_add(datetime, ad->circle_surface);
+	eext_circle_object_datetime_add(datetime, ad->circle_surface);
 
 	eext_rotary_object_event_activated_set(datetime, EINA_TRUE);
 

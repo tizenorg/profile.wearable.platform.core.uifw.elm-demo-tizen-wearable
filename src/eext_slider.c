@@ -35,7 +35,6 @@ eext_slider_cb(void *data, Evas_Object *obj, void *event_info EINA_UNUSED)
 	Evas_Object *nf = ad->nf;
 	Evas_Object *layout = NULL;
 	Evas_Object *slider = NULL;
-	Elm_Object_Item *nf_it = NULL;
 
 	layout = elm_layout_add(nf);
 	elm_layout_file_set(layout, ELM_DEMO_EDJ, "slider_layout");
@@ -55,5 +54,5 @@ eext_slider_cb(void *data, Evas_Object *obj, void *event_info EINA_UNUSED)
 	eext_circle_object_slider_step_set(slider, 0.5);
 	evas_object_smart_callback_add(slider, "value,changed", _value_changed, layout);
 
-	nf_it = elm_naviframe_item_push(nf, _("Slider"), NULL, NULL, layout, "empty");
+	elm_naviframe_item_push(nf, _("Slider"), NULL, NULL, layout, "empty");
 }

@@ -105,7 +105,6 @@ eext_rotary_selector_cb(void *data, Evas_Object *obj, void *event_info EINA_UNUS
 	appdata_s *ad = (appdata_s *)data;
 	Evas_Object *nf = ad->nf;
 	Evas_Object *rotary_selector;
-	Elm_Object_Item *nf_it = NULL;
 
 	/* Add a new Rotary Selector
 		Because the return value is the elm_layout handle,
@@ -121,5 +120,5 @@ eext_rotary_selector_cb(void *data, Evas_Object *obj, void *event_info EINA_UNUS
 	evas_object_smart_callback_add(rotary_selector, "item,selected", _item_selected_cb, NULL);
 	evas_object_smart_callback_add(rotary_selector, "item,clicked", _item_clicked_cb, NULL);
 
-	nf_it = elm_naviframe_item_push(nf, _("Rotary Selector"), NULL, NULL, rotary_selector, "empty");
+	elm_naviframe_item_push(nf, _("Rotary Selector"), NULL, NULL, rotary_selector, "empty");
 }
