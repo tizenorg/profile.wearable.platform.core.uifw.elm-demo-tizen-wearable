@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://tizen.org/ns/packages" package="@PACKAGE@" api-version="3.0" version="@PKG_VERSION@" install-location="internal-only">
+    <profile name="wearable"/>
+    <label>wearable-demo</label>
+    <description>Tizen Wearable Theme Demo Code</description>
+    <ui-application appid="@PACKAGE@" exec="@BINDIR@/@PROJECT_NAME@" nodisplay="false" multiple="false" type="capp" taskmanage="true">
+        <label>wearable-demo</label>
+        <label xml:lang="en-us">wearable-demo</label>
+        <icon>@PACKAGE@.png</icon>
+    </ui-application>
+</manifest>

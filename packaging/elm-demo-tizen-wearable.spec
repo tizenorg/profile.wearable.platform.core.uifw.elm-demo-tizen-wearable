@@ -1,5 +1,5 @@
 Name: org.tizen.elm-demo-tizen-wearable
-Version:    0.1
+Version:    0.2
 Release:    1
 Summary: Tizen wearable theme demo
 Source: %{name}-%{version}.tar.gz
@@ -22,26 +22,29 @@ Tizen wearable theme demo
 %prep
 %setup -q
 
-%define prefix "/usr/apps/org.tizen.elm-demo-tizen-wearable"
+%define _pkg_dir %{TZ_SYS_RO_APP}/%{name}
 
 %build
-rm -rf CMakeFiles CMakeCache.txt && cmake . -DCMAKE_INSTALL_PREFIX=%{prefix}
+rm -rf CMakeFiles CMakeCache.txt && cmake . -DCMAKE_INSTALL_PREFIX=%{_pkg_dir} -DPKG_MANIFEST_PATH=%{TZ_SYS_RO_PACKAGES} -DPKG_VERSION=%{version}
 make %{?jobs:-j%jobs}
+
+%post
+echo -e '\033[1m\033[36m ===== Import to package DB using tpk-backend ===== \033[0m'
+echo 'tpk-backend -y %{name} --preload'
+tpk-backend -y %{name} --preload
+echo -e '\033[1m\033[36m ===== done ===== \033[0m'
 
 %install
 %make_install
-
-mkdir -p %{buildroot}/%{_datadir}/packages/
-cp %{_builddir}/%{buildsubdir}/org.tizen.elm-demo-tizen-wearable.xml %{buildroot}/%{_datadir}/packages/org.tizen.elm-demo-tizen-wearable.xml
 
 mkdir -p %{buildroot}/%{_datadir}/license
 cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 
 %files
 %defattr(-,root,root,-)
-/usr/apps/org.tizen.elm-demo-tizen-wearable/bin/*
-/usr/apps/org.tizen.elm-demo-tizen-wearable/res/*
-%{_datadir}/packages/org.tizen.elm-demo-tizen-wearable.xml
-%{_datadir}/icons/default/small/org.tizen.elm-demo-tizen-wearable.png
+%{_pkg_dir}/bin/*
+%{_pkg_dir}/res/*
+%{_pkg_dir}/shared/*
+%{TZ_SYS_RO_PACKAGES}/%{name}.xml
 %{_datadir}/license/%{name}
 %manifest %{name}.manifest

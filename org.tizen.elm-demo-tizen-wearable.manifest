@@ -1,12 +1,5 @@
 <manifest>
-	<define>
-		<domain name="org.tizen.elm-demo-tizen-wearable"/>
-	</define>
 	<request>
 		<domain name="_"/>
 	</request>
-	<assign>
-		<filesystem path="/usr/share/icons/default/small/org.tizen.elm-demo-tizen-wearable.png" label="_"/>
-		<filesystem path="/usr/apps/org.tizen.elm-demo-tizen-wearable/res/*" label="_"/>
-	</assign>
 </manifest>

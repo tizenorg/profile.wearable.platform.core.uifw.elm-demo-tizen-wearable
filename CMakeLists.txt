@@ -2,29 +2,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 PROJECT(elm-demo-tizen-wearable C)
 SET(PACKAGE org.tizen.elm-demo-tizen-wearable)
 
-SET(SRCS
-        src/bg.c
-        src/check.c
-        src/eext_genlist.c
-        src/eext_progressbar.c
-        src/eext_scroller.c
-        src/eext_spinner.c
-        src/genlist.c
-        src/index.c
-        src/main.c
-        src/popup.c
-        src/radio.c
-        src/button.c
-        src/eext_datetime.c
-        src/eext_more_option.c
-        src/eext_rotary_selector.c
-        src/eext_slider.c
-        src/entry.c
-        src/image.c
-        src/layout.c
-        src/map.c
-        src/progressbar.c
-        src/scroller.c
+FILE(GLOB SRCS
+        src/*.c
 	)
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/inc)
@@ -56,6 +35,7 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${PKG_CFLAGS}")
 # install desktop file & icon
 SET(PREFIX ${CMAKE_INSTALL_PREFIX})
 SET(BINDIR "${PREFIX}/bin")
+SET(SHDIR "${PREFIX}/shared")
 SET(RESDIR "${PREFIX}/res")
 SET(LOCALEDIR "${RESDIR}/locale")
 SET(IMGDIR "${RESDIR}/images")
@@ -79,8 +59,10 @@ ADD_DEPENDENCIES(${PROJECT_NAME} ${PROJECT_NAME}.edj)
 
 INSTALL(TARGETS ${PROJECT_NAME} DESTINATION ${BINDIR})
 # for workaround taskmanager behaviour
-INSTALL(FILES ${CMAKE_SOURCE_DIR}/${PACKAGE}.png DESTINATION /usr/share/icons/default/small/)
+INSTALL(FILES ${CMAKE_SOURCE_DIR}/${PACKAGE}.png DESTINATION ${SHDIR}/res/)
 INSTALL(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.edj DESTINATION ${RESDIR})
 INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res/images/ DESTINATION ${IMGDIR} FILES_MATCHING PATTERN "*.png")
 INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res/images/ DESTINATION ${IMGDIR} FILES_MATCHING PATTERN "*.jpg")
-INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${PACKAGE}.xml DESTINATION /usr/share/packages/)
+
+CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/${PACKAGE}.xml.in ${CMAKE_SOURCE_DIR}/${PACKAGE}.xml @ONLY)
+INSTALL(FILES ${CMAKE_SOURCE_DIR}/${PACKAGE}.xml DESTINATION ${PKG_MANIFEST_PATH})
