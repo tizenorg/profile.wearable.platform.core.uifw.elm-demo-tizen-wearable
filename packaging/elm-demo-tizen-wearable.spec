@@ -28,12 +28,6 @@ Tizen wearable theme demo
 rm -rf CMakeFiles CMakeCache.txt && cmake . -DCMAKE_INSTALL_PREFIX=%{_pkg_dir} -DPKG_MANIFEST_PATH=%{TZ_SYS_RO_PACKAGES} -DPKG_VERSION=%{version}
 make %{?jobs:-j%jobs}
 
-%post
-echo -e '\033[1m\033[36m ===== Import to package DB using tpk-backend ===== \033[0m'
-echo 'tpk-backend -y %{name} --preload'
-tpk-backend -y %{name} --preload
-echo -e '\033[1m\033[36m ===== done ===== \033[0m'
-
 %install
 %make_install
 
