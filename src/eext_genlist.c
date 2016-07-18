@@ -89,12 +89,22 @@ gl_selected_cb(void *data, Evas_Object *obj, void *event_info)
 	elm_genlist_item_selected_set(it, EINA_FALSE);
 }
 
+static void
+gl_realized_cb(void *data, Evas_Object *obj, void *event_info)
+{
+	Elm_Object_Item *it = (Elm_Object_Item *)event_info;
+	if (it == elm_genlist_first_item_get(obj))
+	{
+		elm_object_item_signal_emit(it, "elm,action,title,slide,start", "elm");
+	}
+}
+
 static char *
 _gl_menu_title_text_get(void *data, Evas_Object *obj, const char *part)
 {
 	char buf[1024];
 
-	snprintf(buf, 1023, "%s", "Eext Genlist");
+	snprintf(buf, 1023, "%s", "Eext Genlist Long Long Long Text");
 	return strdup(buf);
 }
 
@@ -669,6 +679,7 @@ eext_genlist_cb(void *data, Evas_Object *obj, void *event_info)
 	genlist = elm_genlist_add(ad->nf);
 	elm_genlist_mode_set(genlist, ELM_LIST_COMPRESS);
 	evas_object_smart_callback_add(genlist, "selected", gl_selected_cb, NULL);
+	evas_object_smart_callback_add(genlist, "realized", gl_realized_cb, NULL);
 
 	circle_genlist = eext_circle_object_genlist_add(genlist, ad->circle_surface);
 	eext_circle_object_genlist_scroller_policy_set(circle_genlist, ELM_SCROLLER_POLICY_OFF, ELM_SCROLLER_POLICY_AUTO);
